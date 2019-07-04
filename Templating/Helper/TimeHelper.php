@@ -18,19 +18,34 @@ class TimeHelper extends Helper
 
     /**
      * Returns a single number of years, months, days, hours, minutes or
-     * seconds between the specified date times.
-     *
-     * @param  mixed $since The datetime for which the diff will be calculated
-     * @param  mixed $since The datetime from which the diff will be calculated
-     *
+     * seconds between the specified date times or a date in long format
+     * @param  mixed  $since The datetime for which the diff will be calculated
+     * @param  mixed  $since The datetime from which the diff will be calculated
+     * @param  string $time The time from which the date is displayed in long format (must be in a format accepted by strtotime())
      * @return string
      */
-    public function diff($from, $to = null)
+
+    public function diff($from, $to = null, $time = null)
     {
         $from = $this->getDatetimeObject($from);
         $to = $this->getDatetimeObject($to);
 
-        return $this->formatter->formatDiff($from, $to);
+        if(!is_null($time))
+        {
+            $newDateFrom = (clone $from)->modify($time);
+            if($newDateFrom->getTimestamp() < $to->getTimestamp())
+            {
+                return $this->formatter->longDateFormat($from);
+            }
+            else
+            {
+                return $this->formatter->formatDiff($from, $to);
+            }
+        }
+        else
+        {
+            return $this->formatter->formatDiff($from, $to);
+        }
     }
 
     /**

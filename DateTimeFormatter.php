@@ -4,6 +4,7 @@ namespace Knp\Bundle\TimeBundle;
 
 use Symfony\Component\Translation\TranslatorInterface;
 use DatetimeInterface;
+use IntlDateFormatter;
 
 class DateTimeFormatter
 {
@@ -95,5 +96,17 @@ class DateTimeFormatter
     public function getEmptyDiffMessage()
     {
         return $this->translator->trans('diff.empty', array(), 'time');
+    }
+
+    /**
+     * Returns a date in long format
+     * @param DateTimeInterface $from
+     * @return bool|string
+     */
+
+    public function longDateFormat(DateTimeInterface $from)
+    {
+        $longDate = new IntlDateFormatter($this->translator->getLocale(), IntlDateFormatter::LONG, IntlDateFormatter::NONE, $from->getTimezone());
+        return $longDate->format($from);
     }
 }
