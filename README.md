@@ -82,7 +82,10 @@ In Twig!
 With time paramater
 ```html+jinja
 {{ someDateTimeVariable|ago("now"|date('Y-m-d H:i:s'),'+ 1 month') }}
-The time paramater must be in a format supported by the strtotime function
+Will stop displaying the date in "ago" format when the date will be one month older than the current date
+
+***The time paramater must be in a format supported by the strtotime function***
+
 ```
 
 ## TESTS
